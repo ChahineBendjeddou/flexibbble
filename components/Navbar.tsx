@@ -1,9 +1,10 @@
 import { NavLinks } from '@/constants'
+import { getCurrentUser } from '@/lib/session'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FC } from 'react'
 import AuthProviders from './AuthProviders'
-import { getCurrentUser } from '@/lib/session'
+import ProfileMenu from './ProfileMenu'
 
 interface NavbarProps {}
 
@@ -26,15 +27,7 @@ const Navbar: FC<NavbarProps> = async ({}) => {
       <div className="gap-4 flexCenter">
         {session?.user ? (
           <>
-            {session.user.image && (
-              <Image
-                src={session.user.image}
-                alt={session.user.name}
-                width={40}
-                height={40}
-                className="rounded-full"
-              />
-            )}
+            <ProfileMenu session={session} />
             <Link href="/create-project"> Share Work</Link>
           </>
         ) : (
