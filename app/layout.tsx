@@ -2,7 +2,7 @@ import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
 import './globals.css'
 export const metadata = {
-  title: 'Flexibbble',
+  title: 'Flexibble',
   description: 'Showcase and discover remarkble developer projects',
 }
 
