@@ -6,6 +6,8 @@ import FormField from './FormField'
 import { categoryFilters } from '@/constants'
 import CustomMenu from './CustomMenu'
 import Button from './Button'
+import { createNewProject, fetchToken } from '@/lib/actions'
+import { useRouter } from 'next/navigation'
 
 interface ProjectFormProps {
   type: 'create' | 'edit'
@@ -28,10 +30,25 @@ const defaultFrom: formType = {
   githubUrl: '',
 }
 const ProjectForm: FC<ProjectFormProps> = ({ type, session }) => {
+  const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const [form, setForm] = useState<formType>(defaultFrom)
 
-  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {}
+  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    const { token } = await fetchToken()
+    try {
+      if (type === 'create') {
+        await createNewProject(form, session?.user?.id, token)
+        router.push('/')
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
