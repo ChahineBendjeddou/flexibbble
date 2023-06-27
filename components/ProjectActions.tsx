@@ -19,6 +19,7 @@ const ProjectActions: FC<ProjectActionsProps> = ({ projectId }) => {
     try {
       await deleteProject(projectId, token)
       router.push('/')
+      router.refresh()
     } catch (error) {
       console.log(error)
     } finally {
