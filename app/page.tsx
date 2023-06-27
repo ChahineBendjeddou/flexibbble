@@ -1,13 +1,16 @@
 import { ProjectInterface } from '@/common.types'
 import Categories from '@/components/Categories'
+import LoadMore from '@/components/LoadMore'
 import ProjectCard from '@/components/ProjectCard'
 import { fetchAllProjects } from '@/lib/actions'
+
 interface HomeProps {
   searchParams: SearchParams
 }
 
 type SearchParams = {
   category?: string
+  endcursor?: string
 }
 type ProjectSearch = {
   projectSearch: {
@@ -21,8 +24,8 @@ type ProjectSearch = {
   }
 }
 
-const Home = async ({ searchParams: { category } }: HomeProps) => {
-  const data = (await fetchAllProjects(category)) as ProjectSearch
+const Home = async ({ searchParams: { category, endcursor } }: HomeProps) => {
+  const data = (await fetchAllProjects(category, endcursor)) as ProjectSearch
   const projectsToDisplay = data?.projectSearch?.edges || []
   if (!projectsToDisplay.length) {
     return (
@@ -34,6 +37,7 @@ const Home = async ({ searchParams: { category } }: HomeProps) => {
       </section>
     )
   }
+  const pagination = data?.projectSearch?.pageInfo
   return (
     <section className="flex-col mb-16 flex-start paddings">
       <Categories />
@@ -50,7 +54,12 @@ const Home = async ({ searchParams: { category } }: HomeProps) => {
           />
         ))}
       </section>
-      <h1>Loadmore</h1>
+      <LoadMore
+        startCursor={pagination.startCursor}
+        endCursor={pagination.endCursor}
+        hasPreviousPage={pagination.hasPreviousPage}
+        hasNextPage={pagination.hasNextPage}
+      />
     </section>
   )
 }
