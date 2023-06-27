@@ -11,6 +11,7 @@ const Categories: FC<CategoriesProps> = ({}) => {
   const category = searchParams.get('category')
 
   const handleTags = (filter: string) => {
+    if (filter === 'All') return router.push(pathname)
     router.push(`${pathname}?category=${filter}`)
   }
   return (
@@ -22,7 +23,7 @@ const Categories: FC<CategoriesProps> = ({}) => {
             type="button"
             onClick={() => handleTags(filter)}
             className={`${
-              category === filter
+              category === filter || (!category && filter === 'All')
                 ? 'bg-light-white-300 font-medium'
                 : 'font-normal'
             } px-4 py-3 rounded-lg capitalize whitespace-nowrap`}
