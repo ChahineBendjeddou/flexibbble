@@ -6,7 +6,7 @@ import FormField from './FormField'
 import { categoryFilters } from '@/constants'
 import CustomMenu from './CustomMenu'
 import Button from './Button'
-import { createNewProject, fetchToken } from '@/lib/actions'
+import { createNewProject, fetchToken, updateProject } from '@/lib/actions'
 import { useRouter } from 'next/navigation'
 
 interface ProjectFormProps {
@@ -42,10 +42,11 @@ const ProjectForm: FC<ProjectFormProps> = ({ type, session, project }) => {
     try {
       if (type === 'create') {
         await createNewProject(form, session?.user?.id, token)
-        router.push('/')
       }
       if (type === 'edit') {
+        await updateProject(form, project?.id!, token)
       }
+      router.push('/')
     } catch (error) {
       console.log(error)
     } finally {
