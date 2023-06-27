@@ -3,6 +3,7 @@ import {
   createProjectMutation,
   createUserMutation,
   getUserQuery,
+  projectsQuery,
 } from '@/graphql'
 import { GraphQLClient } from 'graphql-request'
 const isProduction = process.env.NODE_ENV === 'production'
@@ -79,4 +80,12 @@ export const createNewProject = async (
     }
     return makeGraphQLRequest(createProjectMutation, variables)
   }
+}
+
+export const fetchAllProjects = async (
+  category?: string,
+  endcursor?: string
+) => {
+  client.setHeader('x-api-key', apiKey)
+  return makeGraphQLRequest(projectsQuery, { category, endcursor })
 }
