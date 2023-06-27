@@ -1,5 +1,5 @@
 'use client'
-import { SessionInterface } from '@/common.types'
+import { ProjectInterface, SessionInterface } from '@/common.types'
 import Image from 'next/image'
 import { ChangeEvent, FC, FormEvent, useState } from 'react'
 import FormField from './FormField'
@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation'
 interface ProjectFormProps {
   type: 'create' | 'edit'
   session: SessionInterface
+  project?: ProjectInterface
 }
 type formType = {
   title: string
@@ -21,15 +22,15 @@ type formType = {
   category: string
   githubUrl: string
 }
-const defaultFrom: formType = {
-  title: '',
-  description: '',
-  liveSiteUrl: '',
-  image: '',
-  category: '',
-  githubUrl: '',
-}
-const ProjectForm: FC<ProjectFormProps> = ({ type, session }) => {
+const ProjectForm: FC<ProjectFormProps> = ({ type, session, project }) => {
+  const defaultFrom: formType = {
+    title: project?.title || '',
+    description: project?.description || '',
+    liveSiteUrl: project?.liveSiteUrl || '',
+    image: project?.image || '',
+    category: project?.category || '',
+    githubUrl: project?.githubUrl || '',
+  }
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const [form, setForm] = useState<formType>(defaultFrom)
