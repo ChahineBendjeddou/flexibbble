@@ -47,6 +47,7 @@ const ProjectForm: FC<ProjectFormProps> = ({ type, session, project }) => {
         await updateProject(form, project?.id!, token)
       }
       router.push('/')
+      router.refresh()
     } catch (error) {
       console.log(error)
     } finally {
