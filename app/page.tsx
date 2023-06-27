@@ -2,6 +2,13 @@ import { ProjectInterface } from '@/common.types'
 import Categories from '@/components/Categories'
 import ProjectCard from '@/components/ProjectCard'
 import { fetchAllProjects } from '@/lib/actions'
+interface HomeProps {
+  searchParams: SearchParams
+}
+
+type SearchParams = {
+  category?: string
+}
 type ProjectSearch = {
   projectSearch: {
     edges: { node: ProjectInterface }[]
@@ -14,13 +21,13 @@ type ProjectSearch = {
   }
 }
 
-const Home = async () => {
-  const data = (await fetchAllProjects()) as ProjectSearch
+const Home = async ({ searchParams: { category } }: HomeProps) => {
+  const data = (await fetchAllProjects(category)) as ProjectSearch
   const projectsToDisplay = data?.projectSearch?.edges || []
   if (!projectsToDisplay.length) {
     return (
       <section className="flex-col flexStart paddings">
-        Categories
+        <Categories />
         <p className="text-center no-result-text">
           No projects found, go create some first.
         </p>
