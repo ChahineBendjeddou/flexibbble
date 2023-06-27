@@ -44,6 +44,8 @@ const ProjectForm: FC<ProjectFormProps> = ({ type, session, project }) => {
         await createNewProject(form, session?.user?.id, token)
         router.push('/')
       }
+      if (type === 'edit') {
+      }
     } catch (error) {
       console.log(error)
     } finally {
