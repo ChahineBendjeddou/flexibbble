@@ -18,7 +18,7 @@ const RelatedProjects: FC<RelatedProjectsProps> = async ({
   const filteredProjects = result.user?.projects?.edges.filter(
     ({ node }: { node: ProjectInterface }) => node?.id !== projectId
   )
-  if (!filteredProjects) return null
+  if (!filteredProjects?.length) return null
   return (
     <section className="flex flex-col w-full mt-32">
       <div className="flexBetween">
