@@ -1,7 +1,7 @@
 'use client'
 import { ProjectInterface, SessionInterface } from '@/common.types'
 import Image from 'next/image'
-import { ChangeEvent, FC, FormEvent, useState } from 'react'
+import { ChangeEvent, FC, FormEvent, useRef, useState } from 'react'
 import FormField from './FormField'
 import { categoryFilters } from '@/constants'
 import CustomMenu from './CustomMenu'
@@ -34,7 +34,7 @@ const ProjectForm: FC<ProjectFormProps> = ({ type, session, project }) => {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const [form, setForm] = useState<formType>(defaultFrom)
-
+  const aRef = useRef<HTMLAnchorElement>(null)
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
@@ -46,8 +46,7 @@ const ProjectForm: FC<ProjectFormProps> = ({ type, session, project }) => {
       if (type === 'edit') {
         await updateProject(form, project?.id!, token)
       }
-      router.push('/')
-      router.refresh()
+      aRef.current?.click()
     } catch (error) {
       console.log(error)
     } finally {
@@ -76,6 +75,7 @@ const ProjectForm: FC<ProjectFormProps> = ({ type, session, project }) => {
   }
   return (
     <form onSubmit={handleFormSubmit} className="flexStart form">
+      <a href="/" ref={aRef} className="hidden" />
       <div className="flexStart form_image-container">
         <label htmlFor="poster" className="flexCenter form_image-label">
           {!form.image && 'Choose a poster from your project'}
