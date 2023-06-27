@@ -3,7 +3,7 @@ import { FC, MouseEventHandler } from 'react'
 
 interface ButtonProps {
   title: string
-  type: 'button' | 'submit'
+  type?: 'button' | 'submit'
   leftIcon?: string | null
   RightIcon?: string | null
   isSubmitting?: boolean
@@ -14,7 +14,7 @@ interface ButtonProps {
 
 const Button: FC<ButtonProps> = ({
   title,
-  type,
+  type = 'button',
   leftIcon,
   RightIcon,
   isSubmitting,
