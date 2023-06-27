@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { FC } from 'react'
 import AuthProviders from './AuthProviders'
 import ProfileMenu from './ProfileMenu'
+import Button from './Button'
 
 interface NavbarProps {}
 
@@ -28,7 +29,10 @@ const Navbar: FC<NavbarProps> = async ({}) => {
         {session?.user ? (
           <>
             <ProfileMenu session={session} />
-            <Link href="/create-project"> Share Work</Link>
+            <Link href="/create-project">
+              {' '}
+              <Button title="Share work" />
+            </Link>
           </>
         ) : (
           <AuthProviders />
