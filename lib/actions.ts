@@ -2,6 +2,8 @@ import { ProjectForm } from '@/common.types'
 import {
   createProjectMutation,
   createUserMutation,
+  getProjectByIdQuery,
+  getProjectsOfUserQuery,
   getUserQuery,
   projectsQuery,
 } from '@/graphql'
@@ -88,4 +90,13 @@ export const fetchAllProjects = async (
 ) => {
   client.setHeader('x-api-key', apiKey)
   return makeGraphQLRequest(projectsQuery, { category, endcursor })
+}
+
+export const getProjectDetails = async (id: string) => {
+  client.setHeader('x-api-key', apiKey)
+  return makeGraphQLRequest(getProjectByIdQuery, { id })
+}
+export const getUserProjects = async (id: string, last?: number) => {
+  client.setHeader('x-api-key', apiKey)
+  return makeGraphQLRequest(getProjectsOfUserQuery, { id, last })
 }
